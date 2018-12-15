@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PhotoFlux.Models;
-using RestSharp;
+using PhotoFlux.Domain;
 using System.Collections.Generic;
 
 
@@ -11,49 +10,31 @@ namespace PhotoFlux.Controllers
     [ApiController]
     public class PhotosController : ControllerBase
     {
-        // GET api/photos/keyword
-        [HttpGet]
-        public ActionResult<IEnumerable<Photo>> Get([FromQuery]string q)
+
+        private readonly IPhotoStore _photoStore;
+
+
+        public PhotosController(IPhotoStore photoStore)
         {
-            var client = new RestClient("https://api.flickr.com");
+            _photoStore = photoStore;
+        }
 
-            var request = new RestRequest("services/rest", Method.GET);
-            request.AddParameter("format", "rest");
-            request.AddParameter("method", "flickr.photos.search");
-            request.AddParameter("api_key", "");
-            request.AddParameter("text", q);
-            request.AddParameter("format", "json");
-            request.AddParameter("nojsoncallback", "1");
 
-            request.AddHeader("Accept", "application/json");
-
-            var result = client.Execute<FlickrResponse>(request);
-
-            return result.Data.Photos.Photo;
+        // GET api/photos/keyword
+        [HttpGet("{q}")]
+        public ActionResult<IEnumerable<IPhoto>> Search([FromQuery]string q)
+        {
+            return Ok(_photoStore.Search(q));
         }
 
 
         // GET api/photos/5
         [HttpGet("{id}")]
-        public ActionResult<FlickrResponse> Get(int id)
+        public ActionResult<IPhotoMetadata> Get([FromRoute]string id)
         {
-
-
-            var client = new RestClient("https://api.flickr.com");
-
-            var request = new RestRequest("services/rest", Method.GET);
-            request.AddParameter("format", "rest");
-            request.AddParameter("method", "flickr.photos.getInfo");
-            request.AddParameter("api_key", "");
-            request.AddParameter("photo_id", id);
-            request.AddParameter("format", "json");
-            request.AddParameter("nojsoncallback", "1");
-
-            request.AddHeader("Accept", "application/json");
-
-            var result = client.Execute<FlickrResponse>(request);
-
-            return result.Data;
+            return Ok(_photoStore.GetPhotoDetails(id));
         }
+
+
     }
 }
