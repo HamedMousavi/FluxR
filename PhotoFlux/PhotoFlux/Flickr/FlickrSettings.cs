@@ -1,4 +1,4 @@
-﻿namespace PhotoFlux.Settings
+﻿namespace PhotoFlux.Flickr
 {
     public class FlickrSettings
     {

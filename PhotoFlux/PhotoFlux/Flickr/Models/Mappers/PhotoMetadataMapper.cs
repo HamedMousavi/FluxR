@@ -7,17 +7,17 @@ namespace PhotoFlux.Flickr.Models.Mappers
 {
 
 
-    public class PhotoMetadataMapper : BaseMapper<PhotoDetails, PhotoMetadata>
+    public class PhotoMetadataMapper : BaseMapper<FlickrPhotoDetails, PhotoMetadata>
     {
 
 
-        protected override void Copy(PhotoMetadata source, PhotoDetails target)
+        protected override void Copy(PhotoMetadata source, FlickrPhotoDetails target)
         {
             throw new NotImplementedException();
         }
 
 
-        protected override void Copy(PhotoDetails source, PhotoMetadata target)
+        protected override void Copy(FlickrPhotoDetails source, PhotoMetadata target)
         {
             target.Id = source.Id;
             target.DatePosted = ParseDate(source.Dates.Posted);

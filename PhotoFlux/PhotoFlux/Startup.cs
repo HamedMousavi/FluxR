@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PhotoFlux.Domain;
+using PhotoFlux.Flickr;
 using PhotoFlux.Flickr.Models.Mappers;
 
 
@@ -25,8 +26,9 @@ namespace PhotoFlux
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IPhotoStore, FlickrApi>(serviceProvider =>
-                new FlickrApi(Configuration.GetSection("Flickr").Get<Settings.FlickrSettings>(),
-                new PhotoMetadataMapper()));
+                new FlickrApi(Configuration.GetSection("Flickr").Get<FlickrSettings>(),
+                new PhotoMetadataMapper(),
+                new PhotoSearchResultMapper()));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

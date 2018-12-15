@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace PhotoFlux.Domain
@@ -7,12 +8,12 @@ namespace PhotoFlux.Domain
 
     public interface IPhotoStore
     {
-        IPaged<IPhoto> Search(string q);
-        IPhotoMetadata GetPhotoDetails(string id);
+        Task<IPaged<IPhotoSearchResult>> SearchAsync(string q);
+        Task<IPhotoMetadata> GetPhotoDetailsAsync(string id);
     }
 
 
-    public interface IPhoto
+    public interface IPhotoSearchResult
     {
     }
 

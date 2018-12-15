@@ -4,19 +4,21 @@
 namespace PhotoFlux.Models
 {
 
-    public class FlickrResponse
+    public class FlickrSearchResult
     {
-        public PagedPhotos Photos { get; set; }
+        public PagedFlickrPhotos Photos { get; set; }
         public string Stat { get; set; }
     }
+
 
     public class FlickrPhotoDetail
     {
-        public PhotoDetails Photo { get; set; }
+        public FlickrPhotoDetails Photo { get; set; }
         public string Stat { get; set; }
     }
 
-    public class Photo
+
+    public class FlickrPhoto
     {
         public string Id { get; set; }
         public string Owner { get; set; }
@@ -30,7 +32,7 @@ namespace PhotoFlux.Models
     }
 
 
-    public class PhotoDetails
+    public class FlickrPhotoDetails
     {
         public string Id { get; set; }
         public string Secret { get; set; }
@@ -43,16 +45,16 @@ namespace PhotoFlux.Models
         public string Rotation { get; set; }
         public string OriginalSecret { get; set; }
         public string OriginalFormat { get; set; }
-        public PhotoOwner Owner { get; set; }
-        public PhotoTitle Title { get; set; }
-        public PhotoDescription Description { get; set; }
-        public PhotoVisibility Visibility { get; set; }
-        public PhotoDates Dates { get; set; }
+        public FlickrPhotoOwner Owner { get; set; }
+        public FlickrPhotoTitle Title { get; set; }
+        public FlickrPhotoDescription Description { get; set; }
+        public FlickrPhotoVisibility Visibility { get; set; }
+        public FlickrPhotoDates Dates { get; set; }
         public string Views { get; set; }
     }
 
 
-    public class PhotoOwner
+    public class FlickrPhotoOwner
     {
         public string Nsid { get; set; }
         public string Username { get; set; }
@@ -64,19 +66,19 @@ namespace PhotoFlux.Models
     }
 
 
-    public class PhotoTitle
+    public class FlickrPhotoTitle
     {
         public string Content { get; set; }
     }
 
 
-    public class PhotoDescription
+    public class FlickrPhotoDescription
     {
         public string Content { get; set; }
     }
 
 
-    public class PhotoVisibility
+    public class FlickrPhotoVisibility
     {
         public string IsPublic { get; set; }
         public string IsFriend { get; set; }
@@ -84,7 +86,7 @@ namespace PhotoFlux.Models
     }
 
 
-    public class PhotoDates
+    public class FlickrPhotoDates
     {
         public string Posted { get; set; }
         public string Taken { get; set; }
@@ -94,7 +96,7 @@ namespace PhotoFlux.Models
     }
 
 
-    public class PhotoEditability
+    public class FlickrPhotoEditability
     {
         public string CanComment { get; set; }
         public string CanAddMeta { get; set; }
@@ -109,9 +111,9 @@ namespace PhotoFlux.Models
     }
 
 
-    public class PagedPhotos : Paged
+    public class PagedFlickrPhotos : Paged
     {
-        public List<Photo> Photo { get; set; }
+        public List<FlickrPhoto> Photo { get; set; }
     }
 
 }

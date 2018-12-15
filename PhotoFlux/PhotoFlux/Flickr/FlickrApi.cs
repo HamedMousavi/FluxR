@@ -1,69 +1,54 @@
-﻿using PhotoFlux.Models;
-using PhotoFlux.Settings;
+﻿using PhotoFlux.Domain;
+using PhotoFlux.Models;
 using RestSharp;
 using System;
+using System.Threading.Tasks;
 
 
-namespace PhotoFlux.Domain
+namespace PhotoFlux.Flickr
 {
 
     public class FlickrApi : IPhotoStore
     {
 
-        private FlickrSettings _flickrSettings;
-        private readonly IMapper<PhotoDetails, PhotoMetadata> _photoDetailMapper;
-
-
-        public FlickrApi(FlickrSettings flickrSettings, IMapper<PhotoDetails, PhotoMetadata> photoDetailMapper)
+        public FlickrApi(FlickrSettings flickrSettings
+            , IMapper<FlickrPhotoDetails, PhotoMetadata> photoDetailMapper
+            , IMapper<PagedFlickrPhotos, PhotoSearchResult> photoSearchMapper)
         {
             _flickrSettings = flickrSettings;
             _photoDetailMapper = photoDetailMapper;
+            _PhotoSearchMapper = photoSearchMapper;
         }
 
 
-        public IPhotoMetadata GetPhotoDetails(string id)
+        public async Task<IPhotoMetadata> GetPhotoDetailsAsync(string id)
         {
-            var apiResult = CallFlickrFor<FlickrPhotoDetail>(request =>
+            var apiResult = await CallFlickrFor<FlickrPhotoDetail>(request =>
             {
                 request.AddParameter("method", "flickr.photos.getInfo");
                 request.AddParameter("photo_id", id);
             });
-            
+
             return _photoDetailMapper.Map(apiResult.Photo);
-            
         }
 
 
 
-        public IPaged<IPhoto> Search(string q)
+        public async Task<IPaged<IPhotoSearchResult>> SearchAsync(string q)
         {
-            return null;
-            //return CallFlickrFor<FlickrResponse>(request =>
-            //{
-            //    request.AddParameter("method", "flickr.photos.search");
-            //    request.AddParameter("text", q);
-            //}).Photos.Photo;
+            var apiResult = await CallFlickrFor<FlickrSearchResult>(request =>
+            {
+                request.AddParameter("method", "flickr.photos.search");
+                request.AddParameter("text", q);
+            });
+
+            return _PhotoSearchMapper.Map(apiResult.Photos);
         }
 
 
-        private T CallFlickrFor<T>(Action<RestRequest> addParameters) where T : new()
+        private async Task<T> CallFlickrFor<T>(Action<RestRequest> addParameters) where T : new()
         {
-            var client = FlickrClient();
-            var request = FlickrRequest();
-            addParameters(request);
-
-            return client.Execute<T>(request).Data;
-        }
-
-
-        private RestClient FlickrClient()
-        {
-            return new RestClient("https://api.flickr.com");
-        }
-
-
-        private RestRequest FlickrRequest()
-        {
+            var client = new RestClient("https://api.flickr.com"); ;
             var request = new RestRequest("services/rest", Method.GET);
             request.AddParameter("format", "rest");
             request.AddParameter("api_key", _flickrSettings.Key);
@@ -71,7 +56,14 @@ namespace PhotoFlux.Domain
             request.AddParameter("nojsoncallback", "1");
             request.AddHeader("Accept", "application/json");
 
-            return request;
+            addParameters(request);
+
+            return (await client.ExecuteTaskAsync<T>(request)).Data;
         }
+
+
+        private FlickrSettings _flickrSettings;
+        private readonly IMapper<FlickrPhotoDetails, PhotoMetadata> _photoDetailMapper;
+        private readonly IMapper<PagedFlickrPhotos, PhotoSearchResult> _PhotoSearchMapper;
     }
 }

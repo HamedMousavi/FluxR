@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhotoFlux.Domain;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace PhotoFlux.Controllers
@@ -22,17 +23,17 @@ namespace PhotoFlux.Controllers
 
         // GET api/photos/keyword
         [HttpGet("{q}")]
-        public ActionResult<IEnumerable<IPhoto>> Search([FromQuery]string q)
+        public async Task<ActionResult<IEnumerable<IPhotoSearchResult>>> Search([FromQuery]string q)
         {
-            return Ok(_photoStore.Search(q));
+            return Ok(await _photoStore.SearchAsync(q));
         }
 
 
         // GET api/photos/5
         [HttpGet("{id}")]
-        public ActionResult<IPhotoMetadata> Get([FromRoute]string id)
+        public async Task<ActionResult<IPhotoMetadata>> Get([FromRoute]string id)
         {
-            return Ok(_photoStore.GetPhotoDetails(id));
+            return Ok(await _photoStore.GetPhotoDetailsAsync(id));
         }
 
 
