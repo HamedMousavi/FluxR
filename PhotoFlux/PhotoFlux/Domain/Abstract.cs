@@ -32,7 +32,6 @@ namespace PhotoFlux.Domain
         bool IsPublic { get; set; }
         bool IsFriend { get; set; }
         bool IsFamily { get; set; }
-        string Details { get; set; }
     }
 
 

@@ -72,12 +72,12 @@ namespace PhotoFlux.Flickr
         public async Task<IPaged<IPhotoSearchResult>> SearchAsync(string q, string address)
         {
             // Todo: Google Api is our dependency and should not be placed here directly
-            var client = new RestClient("http://localhost:50674");
-            var request = new RestRequest("api/google", Method.GET);
-            //var client = new RestClient("https://maps.googleapis.com");
-            //var request = new RestRequest("maps/api/geocode/json", Method.GET);
-            //request.AddParameter("key", _googleSettings.ApiKey);
-            //request.AddParameter("address", address);
+            //var client = new RestClient("http://localhost:50674");
+            //var request = new RestRequest("api/google", Method.GET);
+            var client = new RestClient("https://maps.googleapis.com");
+            var request = new RestRequest("maps/api/geocode/json", Method.GET);
+            request.AddParameter("key", _googleSettings.ApiKey);
+            request.AddParameter("address", address);
 
             var response = (await client.ExecuteTaskAsync<Google.Models.Geocoder>(request));
             var geocode = response.Data;
@@ -89,7 +89,7 @@ namespace PhotoFlux.Flickr
                 geocode.Results[0].Geometry.Location == null) return await SearchAsync(q);
 
             var region = geocode.Results[0].Geometry.Location;
-            return await SearchAsync(q, new GeoRegion(region.Lat, region.Lng, 100));
+            return await SearchAsync(q, new GeoRegion(region.Lat, region.Lng, 10));
         }
 
 

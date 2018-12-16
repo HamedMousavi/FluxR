@@ -35,7 +35,6 @@ namespace PhotoFlux.Flickr.Models.Mappers
                  IsFamily = string.Equals(p.IsFamily, "1", StringComparison.InvariantCultureIgnoreCase),
                  IsFriend = string.Equals(p.IsFriend, "1", StringComparison.InvariantCultureIgnoreCase),
                  IsPublic = string.Equals(p.IsPublic, "1", StringComparison.InvariantCultureIgnoreCase),
-                 Details = $"{_host.WebRootPath}/api/photos/{p.Id}",
              }
             );
         }

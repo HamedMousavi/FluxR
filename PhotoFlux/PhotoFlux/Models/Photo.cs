@@ -35,6 +35,5 @@ namespace PhotoFlux.Models
         public bool IsPublic { get; set; }
         public bool IsFriend { get; set; }
         public bool IsFamily { get; set; }
-        public string Details { get; set; }
     }
 }
