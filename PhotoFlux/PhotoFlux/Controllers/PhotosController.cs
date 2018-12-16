@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhotoFlux.Domain;
+using PhotoFlux.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,15 +22,15 @@ namespace PhotoFlux.Controllers
         }
 
 
-        // GET api/photos/keyword
-        [HttpGet("{q}")]
-        public async Task<ActionResult<IEnumerable<IPhotoSearchResult>>> Search([FromQuery]string q)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<IPhotoSearchResult>>> Search([FromQuery]string q, [FromQuery]decimal? latitude, [FromQuery]decimal? longitude, [FromQuery]double? radiusInKm, [FromQuery]string address)
         {
-            return Ok(await _photoStore.SearchAsync(q));
+            return (string.IsNullOrWhiteSpace(address))
+                ? Ok(await _photoStore.SearchAsync(q, new GeoRegion(latitude, longitude, radiusInKm)))
+                : Ok(await _photoStore.SearchAsync(q, address));
         }
 
 
-        // GET api/photos/5
         [HttpGet("{id}")]
         public async Task<ActionResult<IPhotoMetadata>> Get([FromRoute]string id)
         {

@@ -51,6 +51,7 @@ namespace PhotoFlux.Models
         public FlickrPhotoVisibility Visibility { get; set; }
         public FlickrPhotoDates Dates { get; set; }
         public string Views { get; set; }
+        public FlickrPhotoUrlList Urls { get; set; }
     }
 
 
@@ -101,6 +102,20 @@ namespace PhotoFlux.Models
         public string CanComment { get; set; }
         public string CanAddMeta { get; set; }
     }
+
+
+    public class FlickrPhotoUrlList
+    {
+        public List<FlickrPhotoUrl> Url { get; set; }
+    }
+
+
+    public class FlickrPhotoUrl
+    {
+        public string Type { get; set; }
+        public string Content { get; set; }
+    }
+
 
     public class Paged
     {

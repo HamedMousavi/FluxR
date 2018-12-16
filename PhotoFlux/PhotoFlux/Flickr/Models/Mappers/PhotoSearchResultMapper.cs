@@ -1,20 +1,43 @@
-﻿using PhotoFlux.Domain;
+﻿using Microsoft.AspNetCore.Hosting;
+using PhotoFlux.Domain;
 using PhotoFlux.Models;
 using System;
+using System.Linq;
 
 
 namespace PhotoFlux.Flickr.Models.Mappers
 {
-    public class PhotoSearchResultMapper : BaseMapper<PagedFlickrPhotos, PhotoSearchResult>
+
+    public class PhotoSearchResultMapper : BaseMapper<PagedFlickrPhotos, PagedPhotoSearchResult>
     {
-        protected override void Copy(PhotoSearchResult source, PagedFlickrPhotos target)
+
+        private readonly IHostingEnvironment _host;
+
+
+        public PhotoSearchResultMapper(IHostingEnvironment host)
+        {
+            _host = host;
+        }
+
+
+        protected override void Copy(PagedPhotoSearchResult source, PagedFlickrPhotos target)
         {
             throw new NotImplementedException();
         }
 
-        protected override void Copy(PagedFlickrPhotos source, PhotoSearchResult target)
+
+        protected override void Copy(PagedFlickrPhotos source, PagedPhotoSearchResult target)
         {
-            throw new NotImplementedException();
+            target.Items = source.Photo.Select(p =>
+             new PhotoSearchResult
+             {
+                 Id = p.Id,
+                 IsFamily = string.Equals(p.IsFamily, "1", StringComparison.InvariantCultureIgnoreCase),
+                 IsFriend = string.Equals(p.IsFriend, "1", StringComparison.InvariantCultureIgnoreCase),
+                 IsPublic = string.Equals(p.IsPublic, "1", StringComparison.InvariantCultureIgnoreCase),
+                 Details = $"{_host.WebRootPath}/api/photos/{p.Id}",
+             }
+            );
         }
     }
 }

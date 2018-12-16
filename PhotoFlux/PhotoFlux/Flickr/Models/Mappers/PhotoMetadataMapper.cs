@@ -1,7 +1,7 @@
 ﻿using PhotoFlux.Domain;
 using PhotoFlux.Models;
 using System;
-
+using System.Linq;
 
 namespace PhotoFlux.Flickr.Models.Mappers
 {
@@ -29,6 +29,7 @@ namespace PhotoFlux.Flickr.Models.Mappers
             target.License = source.License;
             target.Title = source.Title.Content;
             target.ViewCount = Int32.Parse(source.Views);
+            target.Url = source.Urls != null && source.Urls.Url != null && source.Urls.Url.Any() ? source.Urls.Url[0].Content : string.Empty;
         }
 
 

@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using PhotoFlux.Domain;
 using PhotoFlux.Flickr;
 using PhotoFlux.Flickr.Models.Mappers;
-
+using PhotoFlux.Google;
+using PhotoFlux.Models;
 
 namespace PhotoFlux
 {
@@ -25,10 +26,13 @@ namespace PhotoFlux
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IPhotoStore, FlickrApi>(serviceProvider =>
-                new FlickrApi(Configuration.GetSection("Flickr").Get<FlickrSettings>(),
-                new PhotoMetadataMapper(),
-                new PhotoSearchResultMapper()));
+            services.AddSingleton(Configuration.GetSection("Flickr").Get<FlickrSettings>());
+            services.AddSingleton(Configuration.GetSection("Google").Get<GoogleSettings>());
+
+            services.AddScoped<IPhotoStore, FlickrApi>();
+            services.AddScoped<IMapper<FlickrPhotoDetails, PhotoMetadata>, PhotoMetadataMapper>();
+            services.AddScoped<IMapper<PagedFlickrPhotos, PagedPhotoSearchResult>, PhotoSearchResultMapper>();
+            services.AddScoped<IPhotoStore, FlickrApi>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
