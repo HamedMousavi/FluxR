@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoFlux", "PhotoFlux\PhotoFlux.csproj", "{4525BC92-016A-46F4-9D22-CDF8ECA38220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhotoFlux", "PhotoFlux\PhotoFlux.csproj", "{4525BC92-016A-46F4-9D22-CDF8ECA38220}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoFlux.TestServer", "PhotoFlux.TestServer\PhotoFlux.TestServer.csproj", "{5365E5F4-AD2D-4A94-9258-E5480042B4A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoFlux.Tests", "PhotoFlux.Tests\PhotoFlux.Tests.csproj", "{EF207942-0D5D-4957-B533-92DE9BBDCF67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{4525BC92-016A-46F4-9D22-CDF8ECA38220}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4525BC92-016A-46F4-9D22-CDF8ECA38220}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4525BC92-016A-46F4-9D22-CDF8ECA38220}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5365E5F4-AD2D-4A94-9258-E5480042B4A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5365E5F4-AD2D-4A94-9258-E5480042B4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5365E5F4-AD2D-4A94-9258-E5480042B4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5365E5F4-AD2D-4A94-9258-E5480042B4A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF207942-0D5D-4957-B533-92DE9BBDCF67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF207942-0D5D-4957-B533-92DE9BBDCF67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF207942-0D5D-4957-B533-92DE9BBDCF67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF207942-0D5D-4957-B533-92DE9BBDCF67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
