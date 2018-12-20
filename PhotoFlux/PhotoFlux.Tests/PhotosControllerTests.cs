@@ -22,9 +22,9 @@ namespace PhotoFlux.Tests
 
             var response = await sut.Get(photoId);
 
-            Assert.IsAssignableFrom<ActionResult<Domain.IPhotoMetadata>>(response);
+            Assert.IsType<ActionResult<Domain.IPhotoMetadata>>(response);
             Assert.NotNull(response.Result);
-            Assert.IsAssignableFrom<OkObjectResult>(response.Result);
+            Assert.IsType<OkObjectResult>(response.Result);
 
             var statusCode = ((OkObjectResult)response.Result).StatusCode;
             var value = ((OkObjectResult)response.Result).Value as Domain.IPhotoMetadata;
